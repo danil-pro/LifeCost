@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import path from 'path';
 import { corsOptions } from './config/cors';
 import { apiLimiter } from './middleware/rateLimiter';
 import { errorHandler } from './middleware/errorHandler';
@@ -20,6 +21,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(apiLimiter);
 
+// API routes
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', usersRoutes);
 app.use('/api/v1/income', incomeRoutes);
@@ -28,6 +30,15 @@ app.use('/api/v1/expenses', expensesRoutes);
 app.use('/api/v1/insights', insightsRoutes);
 app.use('/api/v1/simulations', simulationsRoutes);
 app.use('/api/v1/goals', goalsRoutes);
+
+// Serve React static files in production
+const clientDistPath = path.resolve(__dirname, '../../client/dist');
+app.use(express.static(clientDistPath));
+
+// SPA fallback — all non-API routes go to index.html
+app.get('*', (_req, res) => {
+  res.sendFile(path.join(clientDistPath, 'index.html'));
+});
 
 app.use(errorHandler);
 

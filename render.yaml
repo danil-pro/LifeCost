@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: lifecost
+    runtime: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      - key: DATABASE_URL
+        value: file:./data/lifecost.db
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: CORS_ORIGIN
+        fromParam: CORS_ORIGIN
+    disk:
+      name: lifecost-data
+      mountPath: /opt/render/project/src/server/data
+      sizeGB: 1
