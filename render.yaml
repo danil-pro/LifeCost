@@ -1,8 +1,9 @@
 services:
   - type: web
     name: lifecost
-    runtime: node
+    env: node
     plan: free
+    region: frankfurt
     buildCommand: npm run build
     startCommand: npm run start
     envVars:
@@ -16,8 +17,6 @@ services:
         generateValue: true
       - key: JWT_REFRESH_SECRET
         generateValue: true
-      - key: CORS_ORIGIN
-        fromParam: CORS_ORIGIN
     disk:
       name: lifecost-data
       mountPath: /opt/render/project/src/server/data
