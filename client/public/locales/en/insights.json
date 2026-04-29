@@ -1,0 +1,12 @@
+{
+  "title": "Insights",
+  "breakdown": "Expense Breakdown",
+  "costOfLiving": "Cost of Living",
+  "noInsights": "Add expenses to see insights",
+  "percentageOfIncome": "% of income goes to",
+  "subscriptionDrain": "Subscriptions drain your budget",
+  "smallPurchases": "You spent on small purchases",
+  "lowDisposable": "Your disposable income is too low",
+  "stupidSpending": "Frequent small purchases detected",
+  "savingsTip": "If you cut this by 50%, you'd save"
+}

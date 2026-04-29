@@ -1,0 +1,132 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  displayName  String?
+  locale       String   @default("en")
+  currency     String   @default("USD")
+  tier         String   @default("free")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  incomes       Income[]
+  expenses      Expense[]
+  categories    Category[]
+  goals         Goal[]
+  subscriptions Subscription[]
+  refreshTokens RefreshToken[]
+}
+
+model Income {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount      Float
+  currency    String   @default("USD")
+  month       String
+  label       String?
+  isRecurring Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId, month])
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  userId    String?
+  user      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  nameRu    String?
+  icon      String?
+  type      String    @default("variable")
+  isDefault Boolean   @default(false)
+  createdAt DateTime  @default(now())
+
+  expenses Expense[]
+
+  @@unique([userId, name])
+}
+
+model Expense {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categoryId  String
+  category    Category  @relation(fields: [categoryId], references: [id])
+  amount      Float
+  currency    String    @default("USD")
+  description String?
+  expenseDate DateTime  @default(now())
+  month       String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([userId, month])
+  @@index([userId, categoryId])
+  @@index([userId, expenseDate])
+}
+
+model Subscription {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name         String
+  amount       Float
+  currency     String   @default("USD")
+  billingCycle String   @default("monthly")
+  startDate    DateTime @default(now())
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([userId, isActive])
+}
+
+model Goal {
+  id           String    @id @default(cuid())
+  userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name         String
+  targetAmount Float
+  currency     String    @default("USD")
+  savedAmount  Float     @default(0)
+  deadline     DateTime?
+  isCompleted  Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  deposits GoalDeposit[]
+
+  @@index([userId, isCompleted])
+}
+
+model GoalDeposit {
+  id        String   @id @default(cuid())
+  goalId    String
+  goal      Goal     @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  amount    Float
+  createdAt DateTime @default(now())
+
+  @@index([goalId])
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}

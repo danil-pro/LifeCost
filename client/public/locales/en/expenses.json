@@ -1,0 +1,17 @@
+{
+  "title": "Expenses",
+  "addExpense": "Add expense",
+  "quickAdd": "Quick add",
+  "amount": "Amount",
+  "category": "Category",
+  "description": "Description",
+  "date": "Date",
+  "fixed": "Fixed",
+  "variable": "Variable",
+  "total": "Total",
+  "noExpenses": "No expenses yet",
+  "addFirst": "Add your first expense",
+  "summary": "Summary",
+  "thisMonth": "This month",
+  "deleteConfirm": "Are you sure you want to delete this expense?"
+}
