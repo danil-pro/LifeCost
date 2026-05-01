@@ -22,7 +22,7 @@ export const simulationsService = {
       include: { category: true },
     });
 
-    const currentTotal = expenses.reduce((sum, e) => sum + e.amount, 0);
+    const currentTotal = expenses.reduce((sum: number, e) => sum + e.amount, 0);
 
     const adjustmentMap = new Map(adjustments.map((a) => [a.categoryId, a.newAmount]));
 
@@ -117,7 +117,7 @@ export const simulationsService = {
       },
     });
 
-    const currentTotal = coffeeExpenses.reduce((sum, e) => sum + e.amount, 0);
+    const currentTotal = coffeeExpenses.reduce((sum: number, e) => sum + e.amount, 0);
     const cutAmount = currentTotal * (percent / 100);
     const newTotal = currentTotal - cutAmount;
 

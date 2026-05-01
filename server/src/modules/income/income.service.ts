@@ -52,7 +52,7 @@ export const incomeService = {
       orderBy: { createdAt: 'desc' },
     });
 
-    const total = incomes.reduce((sum, income) => sum + income.amount, 0);
+    const total = incomes.reduce((sum: number, income) => sum + income.amount, 0);
 
     return { month, incomes, total };
   },

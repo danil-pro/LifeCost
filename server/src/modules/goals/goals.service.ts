@@ -186,12 +186,12 @@ export const goalsService = {
     const incomes = await prisma.income.findMany({
       where: { userId, month },
     });
-    const totalIncome = incomes.reduce((sum, i) => sum + i.amount, 0);
+    const totalIncome = incomes.reduce((sum: number, i) => sum + i.amount, 0);
 
     const expenses = await prisma.expense.findMany({
       where: { userId, month },
     });
-    const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
+    const totalExpenses = expenses.reduce((sum: number, e) => sum + e.amount, 0);
 
     const disposableIncome = totalIncome - totalExpenses;
     const remaining = Math.max(0, goal.targetAmount - goal.savedAmount);

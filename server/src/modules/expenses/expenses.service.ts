@@ -133,7 +133,7 @@ export const expensesService = {
       include: { category: true },
     });
 
-    const grandTotal = expenses.reduce((sum, e) => sum + e.amount, 0);
+    const grandTotal = expenses.reduce((sum: number, e) => sum + e.amount, 0);
 
     const byCategory: Record<string, { categoryId: string; categoryName: string; categoryNameRu: string | null; categoryType: string; total: number }> = {};
     for (const expense of expenses) {
@@ -157,11 +157,11 @@ export const expensesService = {
 
     const totalFixed = categories
       .filter((c) => c.categoryType === 'fixed')
-      .reduce((sum, c) => sum + c.total, 0);
+      .reduce((sum: number, c) => sum + c.total, 0);
 
     const totalVariable = categories
       .filter((c) => c.categoryType === 'variable')
-      .reduce((sum, c) => sum + c.total, 0);
+      .reduce((sum: number, c) => sum + c.total, 0);
 
     return {
       month,

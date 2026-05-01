@@ -23,14 +23,14 @@ export const insightsService = {
       where: { userId, month: targetMonth },
     });
 
-    const monthly = expenses.reduce((sum, e) => sum + e.amount, 0);
+    const monthly = expenses.reduce((sum: number, e) => sum + e.amount, 0);
     const daily = monthly / 30;
     const hourly = monthly / 730;
 
     const incomes = await prisma.income.findMany({
       where: { userId, month: targetMonth },
     });
-    const totalIncome = incomes.reduce((sum, i) => sum + i.amount, 0);
+    const totalIncome = incomes.reduce((sum: number, i) => sum + i.amount, 0);
     const disposableIncome = totalIncome - monthly;
 
     return {
@@ -51,7 +51,7 @@ export const insightsService = {
       include: { category: true },
     });
 
-    const grandTotal = expenses.reduce((sum, e) => sum + e.amount, 0);
+    const grandTotal = expenses.reduce((sum: number, e) => sum + e.amount, 0);
     if (grandTotal === 0) return [];
 
     const byCategory: Record<string, { categoryId: string; categoryName: string; categoryNameRu: string | null; total: number }> = {};
@@ -91,8 +91,8 @@ export const insightsService = {
     const incomes = await prisma.income.findMany({
       where: { userId, month: targetMonth },
     });
-    const totalIncome = incomes.reduce((sum, i) => sum + i.amount, 0);
-    const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
+    const totalIncome = incomes.reduce((sum: number, i) => sum + i.amount, 0);
+    const totalExpenses = expenses.reduce((sum: number, e) => sum + e.amount, 0);
 
     if (totalExpenses === 0) {
       return [{ type: 'info', title: 'No expenses', description: 'No expenses recorded for this month' }];
@@ -144,7 +144,7 @@ export const insightsService = {
 
     // Rule 3: Small purchases (under $10)
     const smallPurchases = expenses.filter((e) => e.amount < 10);
-    const smallTotal = smallPurchases.reduce((sum, e) => sum + e.amount, 0);
+    const smallTotal = smallPurchases.reduce((sum: number, e) => sum + e.amount, 0);
     if (smallTotal > 0) {
       result.push({
         type: 'info',
