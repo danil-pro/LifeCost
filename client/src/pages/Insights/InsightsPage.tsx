@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { Card } from '../../components/UI/Card';
@@ -208,7 +208,7 @@ function getInsightIcon(type: string): string {
 function translateInsight(
   insight: Insight,
   t: (key: string) => string,
-  formatAmount: (amount: number) => string,
+  _formatAmount: (amount: number) => string,
   locale: string,
 ): { title: string; description: string } {
   const title = insight.title || '';

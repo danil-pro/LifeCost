@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -11,14 +11,13 @@ import { incomeApi } from '../../api/income.api';
 import { expensesApi } from '../../api/expenses.api';
 import { categoriesApi } from '../../api/categories.api';
 import { getCurrentMonth, getDaysInMonth, formatMonth } from '../../utils/dates';
-import { formatDate, formatPercentage } from '../../utils/formatters';
+import { formatDate } from '../../utils/formatters';
 import { Card } from '../../components/UI/Card';
 import { Button } from '../../components/UI/Button';
 import { Input } from '../../components/UI/Input';
 import { Select } from '../../components/UI/Select';
 import { Spinner } from '../../components/UI/Spinner';
 import { Badge } from '../../components/UI/Badge';
-import { ProgressBar } from '../../components/UI/ProgressBar';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -763,14 +762,6 @@ const badgeVariantForType = (
   }
 };
 
-function getTodayISO(): string {
-  const d = new Date();
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
-
 function toISODate(d: Date): string {
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, '0');
@@ -945,7 +936,6 @@ const DashboardPage: React.FC = () => {
 
   const summary = summaryRaw;
   const incomes: IncomeRecord[] = Array.isArray(incomeListRaw) ? incomeListRaw : [];
-  const incomeCurrent = incomeCurrentRaw;
   const insights: Insight[] = Array.isArray(insightsRaw) ? insightsRaw : [];
   const recentInsights = insights.slice(0, 3);
 

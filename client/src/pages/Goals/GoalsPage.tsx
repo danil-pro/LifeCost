@@ -276,7 +276,6 @@ const GoalsContent: React.FC = () => {
   const [formName, setFormName] = useState('');
   const [formTarget, setFormTarget] = useState('');
   const [formDeadline, setFormDeadline] = useState('');
-  const [formMonthlySavings, setFormMonthlySavings] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
   // Deposit form state per goal
@@ -307,7 +306,7 @@ const GoalsContent: React.FC = () => {
 
       const depMap: Record<string, GoalDeposit[]> = {};
       for (const [id, deps] of depositEntries) {
-        depMap[id] = deps;
+        depMap[id] = deps as GoalDeposit[];
       }
       setDepositsMap(depMap);
 
