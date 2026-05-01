@@ -5,14 +5,14 @@ services:
     plan: free
     region: frankfurt
     buildCommand: npm run build
-    startCommand: cd server && npm start
+    startCommand: bash render-start.sh
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
         value: 3001
       - key: DATABASE_URL
-        value: file:./data/lifecost.db
+        value: file:/opt/render/project/src/server/data/lifecost.db
       - key: JWT_SECRET
         generateValue: true
       - key: JWT_REFRESH_SECRET
