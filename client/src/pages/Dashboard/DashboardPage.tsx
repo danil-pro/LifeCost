@@ -883,7 +883,7 @@ const DashboardPage: React.FC = () => {
     },
   });
 
-  const { data: incomeCurrentRaw } = useQuery({
+  useQuery({
     queryKey: ['income-current'],
     queryFn: async () => {
       const res = await incomeApi.current();

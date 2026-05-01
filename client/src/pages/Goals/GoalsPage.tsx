@@ -356,7 +356,6 @@ const GoalsContent: React.FC = () => {
       setFormName('');
       setFormTarget('');
       setFormDeadline('');
-      setFormMonthlySavings('');
       setShowForm(false);
       await fetchGoals();
     } catch {
