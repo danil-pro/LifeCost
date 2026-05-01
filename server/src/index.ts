@@ -1,8 +1,23 @@
+import { execSync } from 'child_process';
 import { env } from './config/env';
 import app from './app';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
+
+function runPrismaDbPush() {
+  console.log('[LifeCost] DATABASE_URL:', process.env.DATABASE_URL);
+  console.log('[LifeCost] Running prisma db push...');
+  try {
+    execSync('node ./node_modules/prisma/build/index.js db push --skip-generate --accept-data-loss', {
+      stdio: 'inherit',
+      cwd: __dirname + '/..',
+    });
+    console.log('[LifeCost] prisma db push completed');
+  } catch (err) {
+    console.error('[LifeCost] prisma db push failed:', err);
+  }
+}
 
 async function seedDefaults() {
   try {
@@ -35,11 +50,12 @@ async function seedDefaults() {
       console.log('[LifeCost] Default categories seeded');
     }
   } catch (err) {
-    console.error('[LifeCost] Seed error (tables may not exist yet):', err);
+    console.error('[LifeCost] Seed error:', err);
   }
 }
 
 async function start() {
+  runPrismaDbPush();
   await seedDefaults();
 
   app.listen(env.PORT, () => {
