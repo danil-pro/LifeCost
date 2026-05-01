@@ -4,8 +4,8 @@ services:
     env: node
     plan: free
     region: frankfurt
-    buildCommand: npm run build
-    startCommand: npm run start
+    buildCommand: npm run build && cd server && npx prisma db push --skip-generate
+    startCommand: cd server && node dist/index.js
     envVars:
       - key: NODE_ENV
         value: production

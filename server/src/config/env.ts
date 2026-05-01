@@ -8,7 +8,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 // Ensure DATABASE_URL exists for Prisma (it reads process.env directly)
 if (!process.env.DATABASE_URL) {
-  process.env.DATABASE_URL = 'file:./dev.db';
+  const dbPath = path.resolve(__dirname, '../../prisma/dev.db');
+  process.env.DATABASE_URL = `file:${dbPath}`;
 }
 
 export const env = {
