@@ -60,6 +60,11 @@ client.interceptors.response.use(
         const { accessToken: newAccess, refreshToken: newRefresh } = response.data.data;
         tokenManager.setTokens(newAccess, newRefresh);
 
+        // Also persist the new refresh token to localStorage
+        if (newRefresh) {
+          localStorage.setItem('lifecost-refresh-token', newRefresh);
+        }
+
         if (originalRequest.headers) {
           originalRequest.headers.Authorization = `Bearer ${newAccess}`;
         }

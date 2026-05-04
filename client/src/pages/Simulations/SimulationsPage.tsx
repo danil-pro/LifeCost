@@ -326,11 +326,11 @@ const SimulationsContent: React.FC = () => {
               </ResultCard>
               <ResultCard>
                 <ResultLabel>{t('projectedSpending')}</ResultLabel>
-                <ResultValue>{formatAmount(simulationResult.projectedTotal)}</ResultValue>
+                <ResultValue>{formatAmount(simulationResult.simulatedTotal)}</ResultValue>
               </ResultCard>
               <ResultCard $highlight>
                 <ResultLabel>{t('monthlySavings')}</ResultLabel>
-                <ResultValue $highlight>{formatAmount(simulationResult.monthlySavings)}</ResultValue>
+                <ResultValue $highlight>{formatAmount(simulationResult.savings)}</ResultValue>
               </ResultCard>
             </ResultsGrid>
           )}
@@ -370,11 +370,11 @@ const SimulationsContent: React.FC = () => {
             </ResultCard>
             <ResultCard>
               <ResultLabel>{t('projectedSpending')}</ResultLabel>
-              <ResultValue>{formatAmount(coffeeResult.projectedSpending)}</ResultValue>
+              <ResultValue>{formatAmount(coffeeResult.newSpending)}</ResultValue>
             </ResultCard>
             <ResultCard $highlight>
               <ResultLabel>{t('monthlySavings')}</ResultLabel>
-              <ResultValue $highlight>{formatAmount(coffeeResult.monthlySavings)}</ResultValue>
+              <ResultValue $highlight>{formatAmount(coffeeResult.savings)}</ResultValue>
             </ResultCard>
           </ResultsGrid>
         )}
@@ -390,15 +390,15 @@ const SimulationsContent: React.FC = () => {
           <EmptyState>{t('noStupid')}</EmptyState>
         ) : (
           stupidSpending.map((item, index) => (
-            <StupidItem key={`${item.description}-${index}`}>
+            <StupidItem key={`${item.categoryId}-${index}`}>
               <StupidInfo>
-                <StupidDescription>{item.description}</StupidDescription>
-                <StupidCategory>{item.categoryName}</StupidCategory>
+                <StupidDescription>{item.category}</StupidDescription>
+                <StupidCategory>{item.category}</StupidCategory>
               </StupidInfo>
               <StupidStats>
-                <StupidAmount>{formatAmount(item.totalSpent)}</StupidAmount>
+                <StupidAmount>{formatAmount(item.total)}</StupidAmount>
                 <StupidFrequency>
-                  {item.frequency} {t('count')}
+                  {item.count} {t('count')}
                 </StupidFrequency>
               </StupidStats>
             </StupidItem>

@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import jwt from 'jsonwebtoken';
 import { env } from '../config/env';
 
@@ -7,11 +8,11 @@ interface AccessPayload {
 }
 
 export const signAccessToken = (payload: AccessPayload): string => {
-  return jwt.sign(payload, env.JWT_SECRET, { expiresIn: env.JWT_ACCESS_EXPIRY });
+  return jwt.sign({ ...payload, jti: randomUUID() }, env.JWT_SECRET, { expiresIn: env.JWT_ACCESS_EXPIRY });
 };
 
 export const signRefreshToken = (payload: AccessPayload): string => {
-  return jwt.sign(payload, env.JWT_REFRESH_SECRET, { expiresIn: env.JWT_REFRESH_EXPIRY });
+  return jwt.sign({ ...payload, jti: randomUUID() }, env.JWT_REFRESH_SECRET, { expiresIn: env.JWT_REFRESH_EXPIRY });
 };
 
 export const verifyAccessToken = (token: string): AccessPayload => {

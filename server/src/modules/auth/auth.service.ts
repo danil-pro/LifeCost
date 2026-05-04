@@ -81,13 +81,17 @@ export const authService = {
     const expiresAt = new Date();
     expiresAt.setDate(expiresAt.getDate() + 30);
 
-    await prisma.refreshToken.create({
-      data: {
-        userId: user.id,
-        token: refreshToken,
-        expiresAt,
-      },
-    });
+    // Delete old refresh tokens and create a new one
+    await prisma.$transaction([
+      prisma.refreshToken.deleteMany({ where: { userId: user.id } }),
+      prisma.refreshToken.create({
+        data: {
+          userId: user.id,
+          token: refreshToken,
+          expiresAt,
+        },
+      }),
+    ]);
 
     const { passwordHash: _, ...userWithoutPassword } = user;
     return { accessToken, refreshToken, user: userWithoutPassword };
@@ -115,8 +119,24 @@ export const authService = {
     }
 
     const accessToken = signAccessToken({ userId: user.id, tier: user.tier });
+    const newRefreshToken = signRefreshToken({ userId: user.id, tier: user.tier });
 
-    return { accessToken };
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + 30);
+
+    // Rotate refresh token: delete old, create new
+    await prisma.$transaction([
+      prisma.refreshToken.delete({ where: { token } }),
+      prisma.refreshToken.create({
+        data: {
+          userId: user.id,
+          token: newRefreshToken,
+          expiresAt,
+        },
+      }),
+    ]);
+
+    return { accessToken, refreshToken: newRefreshToken };
   },
 
   async logout(userId: string, token: string) {

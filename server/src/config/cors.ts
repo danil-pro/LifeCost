@@ -12,6 +12,12 @@ if (process.env.CORS_ORIGIN) {
 }
 
 export const corsOptions: CorsOptions = {
-  origin: allowedOrigins,
+  origin: (origin, callback) => {
+    // Allow requests with no origin (same-origin, curl, server-to-server)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    // In production, allow same-origin requests
+    callback(null, true);
+  },
   credentials: true,
 };

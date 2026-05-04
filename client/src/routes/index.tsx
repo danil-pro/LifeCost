@@ -8,6 +8,7 @@ import { Spinner } from '../components/UI/Spinner';
 const LoginPage = lazy(() => import('../pages/Auth/LoginPage'));
 const RegisterPage = lazy(() => import('../pages/Auth/RegisterPage'));
 const DashboardPage = lazy(() => import('../pages/Dashboard/DashboardPage'));
+const ExpensesPage = lazy(() => import('../pages/Expenses/ExpensesPage'));
 const IncomePage = lazy(() => import('../pages/Income/IncomePage'));
 const InsightsPage = lazy(() => import('../pages/Insights/InsightsPage'));
 const SimulationsPage = lazy(() => import('../pages/Simulations/SimulationsPage'));
@@ -59,7 +60,11 @@ export const router = createBrowserRouter([
           },
           {
             path: 'expenses',
-            element: <Navigate to="/dashboard" replace />,
+            element: (
+              <Suspense fallback={PageLoader}>
+                <ExpensesPage />
+              </Suspense>
+            ),
           },
           {
             path: 'income',

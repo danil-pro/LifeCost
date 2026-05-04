@@ -6,30 +6,35 @@ interface SimulationAdjustment {
 }
 
 export interface SimulationResult {
+  month: string;
   currentTotal: number;
-  projectedTotal: number;
-  monthlySavings: number;
-  breakdown: {
+  simulatedTotal: number;
+  savings: number;
+  changes: {
     categoryId: string;
     categoryName: string;
     currentAmount: number;
     newAmount: number;
+    difference: number;
   }[];
 }
 
 export interface CoffeeCutResult {
+  month: string;
+  category: string;
+  percent: number;
   currentSpending: number;
-  projectedSpending: number;
-  monthlySavings: number;
-  percentCut: number;
+  newSpending: number;
+  savings: number;
+  transactionsCount: number;
 }
 
 export interface StupidSpendingItem {
-  description: string;
-  categoryName: string;
+  category: string;
+  categoryId: string;
+  count: number;
+  total: number;
   averageAmount: number;
-  frequency: number;
-  totalSpent: number;
 }
 
 export const simulationsApi = {
